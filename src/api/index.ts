@@ -20,13 +20,13 @@ export const api = new Elysia({ prefix: "/api" })
       };
     },
     {
-      response: {
+      response: t.Object({
         ok: t.Boolean(),
         data: t.Object({
           countries: t.Array(Country),
           states: t.Array(State),
         }),
-      },
+      }),
     },
   )
   .get(
