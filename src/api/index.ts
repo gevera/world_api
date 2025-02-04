@@ -1,11 +1,12 @@
 import Elysia, { t } from "elysia";
 import {
+  queryCitiesByStateId,
   queryCountries,
   queryCountryById,
   queryStates,
   queryStatesByCountryId,
 } from "../db/queries";
-import { Country, State } from "../types";
+import { City, Country, State } from "../types";
 
 export const api = new Elysia({ prefix: "/api" })
   .get(
@@ -80,9 +81,27 @@ export const api = new Elysia({ prefix: "/api" })
       params: t.Object({
         country_id: t.Number(),
       }),
-      response: {
+      response: t.Object({
         ok: t.Boolean(),
         data: t.Array(State),
-      },
+      }),
+    },
+  )
+  .get(
+    "/cities/:state_id",
+    ({ params: { state_id } }) => {
+      return {
+        ok: true,
+        data: queryCitiesByStateId.all({ $state_id: state_id }),
+      };
+    },
+    {
+      params: t.Object({
+        state_id: t.Number(),
+      }),
+      response: t.Object({
+        ok: t.Boolean(),
+        data: t.Array(City),
+      }),
     },
   );

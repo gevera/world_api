@@ -17,3 +17,7 @@ export const queryStatesByCountryId = wdb.prepare(
 export const totalStates = wdb.prepare(
   `select count(*) FROM states WHERE type IS NOT 'city';`,
 );
+
+export const queryCitiesByStateId = wdb.prepare(
+  `select id, name, latitude, longitude, state_id, country_id, "wikiDataId" from cities WHERE state_id = $state_id ORDER BY name;`,
+);
